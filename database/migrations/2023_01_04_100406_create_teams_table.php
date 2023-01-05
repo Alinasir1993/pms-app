@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessTypeTable extends Migration
+class CreateTeamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBusinessTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('business_type', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('business_id');
@@ -28,6 +28,6 @@ class CreateBusinessTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_type');
+        Schema::dropIfExists('teams');
     }
 }

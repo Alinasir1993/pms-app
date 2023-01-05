@@ -4,17 +4,17 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateBusinessApiRequest;
-use App\Repositories\Business\BusinessRepository;
+use App\Http\Requests\CreateTeamApiRequest;
+use App\Repositories\Team\TeamRepository;
 use App\Http\Controllers\AppBaseController;
-use App\Models\Business;
-class BusinessApiController extends AppBaseController
+class TeamController extends  AppBaseController
 {
-    protected $businessApiRepository;
-    public function __construct(BusinessRepository $businessApiRepository)
+    protected $teamRepository;
+    public function __construct(TeamRepository $teamRepository)
     {
-        $this->businessApiRepository = $businessApiRepository;
+        $this->teamRepository = $teamRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +22,7 @@ class BusinessApiController extends AppBaseController
      */
     public function index()
     {
-        $business = Business::where('user_id', 1)->get();
-        return $this->sendResponse($business->toArray(), 'list of all business');
-
+        //
     }
 
     /**
@@ -43,10 +41,11 @@ class BusinessApiController extends AppBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateBusinessApiRequest $request)
+    public function store(CreateTeamApiRequest $request)
     {
-        $businessCreate = $this->businessApiRepository->createBusiness($request);
-        return $this->sendResponse($businessCreate->toArray(), 'Business store successfully');
+        $teamCreate = $this->teamRepository->createTeam($request);
+        return $this->sendResponse($teamCreate->toArray(), 'Team Created Successfully');
+
     }
 
     /**
@@ -80,9 +79,7 @@ class BusinessApiController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        dd($request);
-        $businessUpdate = $this->businessApiRepository->updateBusiness($request, $id);
-        return $this->sendResponse($businessUpdate->toArray(), 'Business store successfully');
+        //
     }
 
     /**

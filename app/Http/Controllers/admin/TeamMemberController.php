@@ -4,17 +4,17 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateBusinessApiRequest;
-use App\Repositories\Business\BusinessRepository;
+use App\Http\Requests\CreateTeamMemberApiRequest;
+use App\Repositories\Team\TeamMemberRepository;
 use App\Http\Controllers\AppBaseController;
-use App\Models\Business;
-class BusinessApiController extends AppBaseController
+class TeamMemberController extends AppBaseController
 {
-    protected $businessApiRepository;
-    public function __construct(BusinessRepository $businessApiRepository)
+    protected $teamMemberApiRepository;
+    public function __construct(TeamMemberRepository $teamMemberApiRepository)
     {
-        $this->businessApiRepository = $businessApiRepository;
+        $this->teamMemberApiRepository = $teamMemberApiRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +22,7 @@ class BusinessApiController extends AppBaseController
      */
     public function index()
     {
-        $business = Business::where('user_id', 1)->get();
-        return $this->sendResponse($business->toArray(), 'list of all business');
-
+        //
     }
 
     /**
@@ -34,7 +32,7 @@ class BusinessApiController extends AppBaseController
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -43,10 +41,10 @@ class BusinessApiController extends AppBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateBusinessApiRequest $request)
+    public function store(CreateTeamMemberApiRequest $request)
     {
-        $businessCreate = $this->businessApiRepository->createBusiness($request);
-        return $this->sendResponse($businessCreate->toArray(), 'Business store successfully');
+        $teamMemberCreate = $this->teamMemberApiRepository->createTeamMember($request);
+        return $this->sendResponse($teamMemberCreate->toArray(), 'Team Member store successfully');
     }
 
     /**
@@ -80,9 +78,7 @@ class BusinessApiController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        dd($request);
-        $businessUpdate = $this->businessApiRepository->updateBusiness($request, $id);
-        return $this->sendResponse($businessUpdate->toArray(), 'Business store successfully');
+        //
     }
 
     /**

@@ -39,7 +39,7 @@ class CreateBusinessApiRequest extends FormRequest
     public function messages()
     {
         return [
-            "business_firstname.required" => "Please enter a Business firstname",
+            "business_owner_firstname.required" => "Please enter a Business firstname",
             "business_name.required" => "Please enter a business name",
             "business_contact_number.required" => "Please enter a business contact number",
             "business_email.required" => "Please enter a business email",

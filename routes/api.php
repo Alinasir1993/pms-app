@@ -31,3 +31,6 @@ Route::resource('business', \App\Http\Controllers\admin\BusinessApiController::c
 
 Route::resource('team', \App\Http\Controllers\admin\TeamController::class);
 Route::resource('team-member', \App\Http\Controllers\admin\TeamMemberController::class);
+
+Route::post('logout', [LoginApiController::class, 'destroy']);
+

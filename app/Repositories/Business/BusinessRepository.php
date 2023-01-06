@@ -37,7 +37,7 @@ class BusinessRepository
         return $businessStore;
     }
     public function updateBusiness($request, $id){
-        dd($request->all());
+
         $businessUpdateArray = Business::where('id', $id)->update([
             'user_id' => $request->user_id,
             'business_owner_firstname' => $request->business_owner_firstname,
@@ -57,8 +57,14 @@ class BusinessRepository
         return $businessUpdateArray;
     }
 
-    public function DeleteBusiness($request, $id) {
-        $business = Business::delete($id);
+    public function showBusiness($id) {
+        $businessDetail = Business::where('id',$id)->first();
+        return $businessDetail;
 
+    }
+
+    public function DeleteBusiness($id) {
+        $business = Business::findorFail($id);
+        $business->delete();
     }
 }

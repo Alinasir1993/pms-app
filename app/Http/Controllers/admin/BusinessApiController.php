@@ -57,7 +57,19 @@ class BusinessApiController extends AppBaseController
      */
     public function show($id)
     {
-        //
+//        dd($id);
+//      dd($business);
+        $business = $this->businessApiRepository->showBusiness($id);
+        if($business){
+//            dd("213");
+            return $this->sendResponse($business->toArray(), 'Business');
+        }
+        else {
+//            dd('2344');
+            return $this->sendResponse([], 'Business does not exist');
+
+        }
+
     }
 
     /**
@@ -80,9 +92,9 @@ class BusinessApiController extends AppBaseController
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+//        dd($request);
         $businessUpdate = $this->businessApiRepository->updateBusiness($request, $id);
-        return $this->sendResponse($businessUpdate->toArray(), 'Business store successfully');
+        return $this->sendResponse($businessUpdate, 'Business Update successfully');
     }
 
     /**
@@ -93,6 +105,8 @@ class BusinessApiController extends AppBaseController
      */
     public function destroy($id)
     {
-        //
+        $business = $this->businessApiRepository->DeleteBusiness($id);
+        return $this->sendResponse([], 'Business Deleted successfully');
+
     }
 }

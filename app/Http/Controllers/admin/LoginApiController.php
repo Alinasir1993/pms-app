@@ -2,31 +2,50 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use App\Http\Requests\LoginApiRequest;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-class LoginApiController extends AppBaseController
+use Illuminate\Support\Facades\Log;
+
+class LoginApiController extends Controller
 {
-    public function  login(LoginApiRequest $request){
+    /**
+     * Handle an incoming authentication request.
+     *
+     * @param  \App\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function login(LoginRequest $request)
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
+//        dd($request);
+        $user = User::whereEmail($request->email)->first();
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
-            $success['token'] = $user->createToken('auth_token')->plainTextToken;
-//            $success['token2'] =  $user->createToken('Performance Management System')->accessToken;
-            $success['id'] =  $user->id;
-            $success['name'] =  $user->name;
-            $success['email'] =  $user->email;
+        $user->tokens()->delete();
 
-            return $this->sendResponse($success, 'User login successfully.');
-        }
-        elseif(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return $this->sendError('Credientals does not match.');
-        }else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-        }
+        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
 
+        return response()->json(['token' => $token, 'data'=>$user], Response::HTTP_OK);
+    }
+
+    /**
+     * Destroy an authenticated session.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(null, 200);
     }
 }
